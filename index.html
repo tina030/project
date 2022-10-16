@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" class="area" />
+    <a href="#" class="getData">按鈕</a>
+
+    <ul class="data"></ul>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js"></script>
+    <!-- <script>
+      let data = document.querySelector(".data");
+      axios
+        .post("http://127.0.0.1:3000/markets/findArea", {
+          地區: "臺北市",
+        })
+        .then((response) => {
+          console.log(response.data);
+          let str = "";
+          response.data.data.forEach((item) => {
+            console.log(item);
+            str += `<h3>${item.編號}<br>
+                ${item.市集名稱}<br>
+                <img src="${item.活動圖片}" height="200"><br>
+                ${item.活動時間}<br>
+                ${item.地區}<br>
+
+                </h3>`;
+          });
+          data.innerHTML = str;
+        })
+        .catch((error) => console.log(error));
+    </script> -->
+
+    <script>
+      let getDataBtn = document.querySelector(".getData");
+      let data = document.querySelector(".data");
+
+
+      getDataBtn.addEventListener("click", function () {
+        getAreaData();
+      })
+
+      let getAreaData = function(){
+        let area = document.querySelector(".area").value;
+        console.log(area)
+        axios
+        .post("http://127.0.0.1:3000/cafe/findArea", {
+          country: area,
+        })
+        .then((response) => {
+          console.log(response.data);
+          let str = "";
+          let i = 0;
+          response.data.data.forEach((item) => {
+            console.log(item);
+            i++;
+
+            str += `  
+                搜尋結果:${i}<br>
+                編號：${item._id}<br>
+                店名：${item.name}<br>
+                營業時間：${item.open_time}<br>
+                地址${item.address}<br>
+                地區：${item.county}<br>
+                <br>`
+          });
+          data.innerHTML = str;
+        })
+        .catch((error) => console.log(error));
+      }
+      
+    </script>
+  </body>
+</html>
